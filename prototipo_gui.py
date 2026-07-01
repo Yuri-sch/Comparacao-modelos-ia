@@ -73,12 +73,9 @@ class AppClassificadorEsportes:
             return
 
         try:
-            # Prepara a imagem exatamente como fizemos no treinamento (64x64, normalizada)
             img = Image.open(self.caminho_imagem).resize((64, 64))
             img_array = img_to_array(img) / 255.0
-            img_tensor = np.expand_dims(img_array, axis=0) # Adiciona a dimensão do lote (batch)
-
-            # Predição
+            img_tensor = np.expand_dims(img_array, axis=0)
             predicao_probs = self.modelo.predict(img_tensor, verbose=0)
             indice_classe = np.argmax(predicao_probs[0])
             certeza = predicao_probs[0][indice_classe] * 100
